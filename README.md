@@ -1,1 +1,1 @@
-# my-objc-shared-stuff
+Helper stuff for everyday objective-c coding.
