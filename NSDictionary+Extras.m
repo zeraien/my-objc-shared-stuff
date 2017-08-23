@@ -45,7 +45,9 @@
 			}
 			[self setObject:rm_currentDict forKey:key];
 
+#if !__has_feature(objc_arc)
 			[rm_currentDict release];
+#endif
 		}
 	}
 }
@@ -64,10 +66,18 @@
 - (NSDictionary*)overwriteValuesWithDictionary:(NSDictionary*)dictionary
 {
 	if (dictionary == nil || [dictionary count]==0)
-		return [[self copy] autorelease];
-	
+#if __has_feature(objc_arc)
+        return [self copy];
+#else
+        return [[self copy] autorelease];
+#endif
+    
 	NSMutableDictionary* dict = [self mutableCopy];
 	[dict addEntriesFromDictionary:dictionary];
-	return [dict autorelease];
+#if __has_feature(objc_arc)
+    return dict;
+#else
+    return [dict autorelease];
+#endif
 }
 @end
